@@ -1,25 +1,35 @@
 (ns bifurcan-clj.map
-  "Functions for working with maps."
-  (:refer-clojure :exclude [contains?
+  "Functions for working with sorted and hash maps."
+  (:refer-clojure :exclude [comparator
+                            contains?
                             empty
+                            first
                             get
                             key
                             keys
+                            last
                             map
                             merge
                             update
                             remove
+                            sorted-map
                             ])
   (:require [clojure [core :as c]]
             [bifurcan-clj.core :refer [functional ->FunctionalN]])
-  (:import (java.util Iterator
+  (:import (java.util Comparator
+                      Iterator
                       OptionalLong)
-           (io.lacuna.bifurcan IEntry
+           (java.util.function ToLongFunction)
+           (io.lacuna.bifurcan ICollection
+                               IDiffSortedMap
+                               IEntry
                                IList
                                IMap
                                ISet
+                               ISortedMap
                                Map
-                               Maps)))
+                               Maps
+                               SortedMap)))
 
 (def empty
   "The empty map."
@@ -41,51 +51,83 @@
 (defprotocol From
   (from ^io.lacuna.bifurcan.IMap [x]
         "Constructs a map from another collection. Can take a Bifurcan map, a
-        Bifurcan list of Bifurcan Entries, or an iterable of anything that can
-        be coerced to an Entry--Clojure map entries, [k v] vector pairs, or
-        Bifurcan entries."))
+        Bifurcan list of Bifurcan Entries, or an iterable/reducible/seqable of
+        anything that can be coerced to an Entry--Clojure map entries, [k v]
+        vector pairs, or Bifurcan entries.")
+
+  (sorted-map-from ^io.lacuna.bifurcan.ISortedMap [x]
+                   "Constructs a sorted map from another collection. Can take a
+                   Bifurcan map or an iterable/reducible/seqable of anything
+                   that can be coerced to an Entry--Clojure map entries, [k v]
+                   vector pairs, or Bifurcan entries."))
+
+(defn from-reduce
+  "Takes an initial map and a reducible of things that can be coerced to
+  entries. Adds all those entries to the map and returns the map, forked."
+  [^IMap init pairs]
+  (.forked ^ICollection
+           (reduce (fn [^IMap m, pair]
+                     (let [e (->entry pair)]
+                       (.put m (.key e) (.value e))))
+                   (.linear init)
+                   pairs)))
 
 (extend-protocol From
   ; We want to be able to convert Clojure maps and lazy sequences of [k v]
   ; vector pairs to Bifurcan maps readily. This is our path for that coercion.
   clojure.lang.IReduceInit
   (from [pairs]
-    (.forked ^IMap
-      (reduce (fn [^Map m, pair]
-                (let [e (->entry pair)]
-                  (.put m (.key e) (.value e))))
-              empty
-              pairs)))
+    (from-reduce empty pairs))
+
+  (sorted-map-from [pairs]
+    (from-reduce (SortedMap.) pairs))
 
   clojure.lang.Seqable
   (from [pairs]
-    (.forked ^IMap
-      (reduce (fn [^Map m, pair]
-                (let [e (->entry pair)]
-                  (.put m (.key e) (.value e))))
-              empty
-              pairs)))
+    (from-reduce empty pairs))
+
+  (sorted-map-from [pairs]
+    (from-reduce (SortedMap.) pairs))
 
   ; The direct list form expects IEntrys
   IList
   (from [l] (Map/from l))
 
+  (sorted-map-from [l]
+    (from-reduce (SortedMap.) l))
+
   ; The direct iterator form expects IEntrys
   Iterator
   (from [iter] (Map/from iter))
 
+  (sorted-map-from [pairs]
+    (from-reduce (SortedMap.) pairs))
+
   IMap
   (from [m] (Map/from m))
 
-  Map
-  (from [m] (Map/from m)))
+  (sorted-map-from [m]
+    (sorted-map-from (.entries m)))
 
-(defn map
-  "Constructs an empty map. Optionally takes a hash and equality function."
+  Map
+  (from [m] (Map/from m))
+
+  (sorted-map-from [m]
+    (SortedMap/from m)))
+
+(defn ^Map map
+  "Constructs an empty map. optionally takes a hash and equality function."
   ([]
    (Map.))
   ([hash-fn equals-fn]
    (Map. (functional hash-fn) (functional equals-fn))))
+
+(defn sorted-map
+  "Constructs an empty sorted map with the given comparator."
+  ([]
+   (SortedMap.))
+  ([comparator]
+   (SortedMap. comparator)))
 
 (defn key
   "The key of a map entry."
@@ -96,6 +138,16 @@
   "The value of a map entry."
   [^IEntry entry]
   (.value entry))
+
+(defn ^ToLongFunction key-hash
+  "The key hash function used by this map."
+  [^IMap m]
+  (.keyHash m))
+
+(defn ^ToLongFunction key-equality
+  "The key equality function used by this map."
+  [^IMap m]
+  (.keyEquality m))
 
 (defn get
   "Gets a key from a map. Returns the value, or nil if not found. Can take an
@@ -136,6 +188,12 @@
   "Returns the list of values in the map."
   [^IMap m]
   (.values m))
+
+; Not resolvable?
+;(defn ^IMap slice-indices
+;  "Returns a map with all entries with indices in [min max] inclusive."
+;  [^IMap m ^long min ^long max]
+;  (.sliceIndices ^Object m min max))
 
 (defn ^IMap map-values
   "Transforms all values using a function (f k v)."
@@ -211,3 +269,66 @@
   "Removes a key from the map."
   [^IMap m, k]
   (.remove m k))
+
+; Sorted maps
+
+(defn ^Comparator comparator
+  "Returns the comparator function for two keys."
+  [^ISortedMap m]
+  (.comparator m))
+
+(defn floor-index
+  "The index of the entry whose key is either equal to key, or just below it.
+  If key is less than the minimum value in the map, returns null."
+  [^ISortedMap m, k]
+  (let [i (.floorIndex m k)]
+    (when (.isPresent i)
+      (.getAsLong i))))
+
+;(defn inclusive-floor-index
+;  "Not sure what this is."
+;  [^ISortedMap m, k]
+;  (let [i (.inclusiveFloorIndex m k)]
+;    (when (.isPresent i)
+;      (.getAsLong i))))
+
+(defn ceil-index
+  "The index of the entry whose key is either equal to key, or just above it.
+  If key is greater than the maximum value in the map, returns null."
+  [^ISortedMap m, ^long k]
+  (let [i (.ceilIndex m k)]
+    (when (.isPresent i)
+      (.getAsLong i))))
+
+(defn ^IEntry floor
+  "The entry whose key is either equal to k, or just below it. If k is less
+  than the minimum value in the map, returns nil."
+  ([^ISortedMap m k]
+   (.floor m k))
+  ([^ISortedMap m k bound]
+   (.floor m k bound)))
+
+(defn ^IEntry ceil
+  "The entry whose key is either equal to k, or just above it. If k is less
+  than the minimum value in the map, returns nil."
+  ([^ISortedMap m k]
+   (.ceil m k))
+  ([^ISortedMap m k bound]
+   (.ceil m k bound)))
+
+(defn ^IDiffSortedMap slice
+  "Returns a sorted map with all entries with keys in [min max] inclusive."
+  ([^ISortedMap m min max]
+   (.slice m min max))
+  ([^ISortedMap m min min-bound max max-bound]
+   (.slice m min min-bound max max-bound)))
+
+(defn ^IEntry first
+  "The first entry of a sorted map"
+  [^ISortedMap m]
+  (.first m))
+
+(defn ^IEntry last
+  "The last entry of a sorted map"
+  [^ISortedMap m]
+  (.last m))

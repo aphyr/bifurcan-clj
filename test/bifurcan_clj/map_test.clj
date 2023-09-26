@@ -129,3 +129,53 @@
 
 (deftest remove-test
   (is (= {:x 1} (-> {:x 1 :y 2} bm/from (bm/remove :y) datafy))))
+
+; Sorted maps
+
+(let [m (bm/sorted-map-from {1 :x, 3 :y})]
+  (deftest floor-index-test
+    (is (= nil (bm/floor-index m 0)))
+    (is (= 0   (bm/floor-index m 1)))
+    (is (= 0   (bm/floor-index m 2)))
+    (is (= 1   (bm/floor-index m 3)))
+    (is (= 1   (bm/floor-index m 4))))
+
+  ;(deftest inclusive-floor-index-test
+  ;  (is (= nil (i/inclusive-floor-index m 0)))
+  ;  (is (= 0   (i/inclusive-floor-index m 1)))
+  ;  (is (= 0   (i/inclusive-floor-index m 2)))
+  ;  (is (= 1   (i/inclusive-floor-index m 3)))
+  ;  (is (= 1   (i/inclusive-floor-index m 4))))
+
+  (deftest ceil-index-test
+    (is (= 0   (bm/ceil-index m 0)))
+    (is (= 0   (bm/ceil-index m 1)))
+    (is (= 1   (bm/ceil-index m 2)))
+    (is (= 1   (bm/ceil-index m 3)))
+    (is (= nil (bm/ceil-index m 4))))
+
+  (deftest floor-test
+    (is (= nil   (datafy (bm/floor m 0))))
+    (is (= [1 :x] (datafy (bm/floor m 1))))
+    (is (= [1 :x] (datafy (bm/floor m 2))))
+    (is (= [3 :y] (datafy (bm/floor m 3))))
+    (is (= [3 :y] (datafy (bm/floor m 4)))))
+
+  (deftest ceil-test
+    (is (= [1 :x] (datafy (bm/ceil m 0))))
+    (is (= [1 :x] (datafy (bm/ceil m 1))))
+    (is (= [3 :y] (datafy (bm/ceil m 2))))
+    (is (= [3 :y] (datafy (bm/ceil m 3))))
+    (is (= nil    (datafy (bm/ceil m 4)))))
+
+  (deftest slice-test
+    (is (= {1 :x} (datafy (bm/slice m -1 1)))))
+
+  ;(deftest slice-indices-test
+  ;  (is (= {3 :y} (datafy (bm/slice-indices m 1 4)))))
+
+  (deftest first-test
+    (is (= [1 :x] (datafy (bm/first m)))))
+
+  (deftest last-test
+    (is (= [3 :y] (datafy (bm/last m))))))
