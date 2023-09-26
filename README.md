@@ -1,4 +1,6 @@
-# Bifurcan Clojure Wrappers
+# Bifurcan for Clojure
+
+[![Clojars Project](https://img.shields.io/clojars/v/com.aphyr/bifurcan-clj.svg)](https://clojars.org/com.aphyr/bifurcan-clj)
 
 [Bifurcan](https://github.com/lacuna/bifurcan) is an excellent library of
 high-performance mutable/persistent data structures by Zach Tellman. However,
