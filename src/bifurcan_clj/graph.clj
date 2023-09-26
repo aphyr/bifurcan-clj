@@ -1,9 +1,9 @@
-(ns com.aphyr.bifurcan-clj.graph
+(ns bifurcan-clj.graph
   "Functions for working with graphs."
   (:refer-clojure :exclude [merge
                             remove])
   (:require [clojure.core :as c]
-            [com.aphyr.bifurcan-clj.core :refer [functional]])
+            [bifurcan-clj.core :refer [functional]])
   (:import (io.lacuna.bifurcan DirectedGraph
                                DirectedAcyclicGraph
                                Graph

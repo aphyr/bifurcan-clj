@@ -1,4 +1,4 @@
-(ns com.aphyr.bifurcan-clj.set
+(ns bifurcan-clj.set
   "Functions for working with sets."
   (:refer-clojure :exclude [contains?
                             empty
@@ -8,7 +8,7 @@
                             remove
                             set])
   (:require [clojure [core :as c]]
-            [com.aphyr.bifurcan-clj.core :refer [functional]])
+            [bifurcan-clj.core :refer [functional]])
   (:import (java.util Iterator
                       OptionalLong)
            (io.lacuna.bifurcan IList

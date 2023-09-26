@@ -1,4 +1,4 @@
-(ns com.aphyr.bifurcan-clj.int-map
+(ns bifurcan-clj.int-map
   "Functions for working with IntegerMaps specifically: an efficient,
   persistent data structure mapping longs to objects. See also
   bifurcan-clj.map for general-purpose map operations."
@@ -15,7 +15,7 @@
                             remove
                             ])
   (:require [clojure [core :as c]]
-            [com.aphyr.bifurcan-clj [core :refer [functional
+            [bifurcan-clj [core :refer [functional
                                                   ->FunctionalN]]
                                     [map :as m]])
   (:import (java.util Collection

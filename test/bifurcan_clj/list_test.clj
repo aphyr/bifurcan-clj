@@ -1,8 +1,8 @@
-(ns com.aphyr.bifurcan-clj.list-test
+(ns bifurcan-clj.list-test
   (:require [clojure [datafy :refer [datafy]]
                      [pprint :refer [pprint]]
                      [test :refer [deftest is]]]
-            [com.aphyr.bifurcan-clj [core :as b]
+            [bifurcan-clj [core :as b]
                                     [list :as bl]]))
 
 (deftest empty-test

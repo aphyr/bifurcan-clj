@@ -1,4 +1,4 @@
-(ns com.aphyr.bifurcan-clj.core
+(ns bifurcan-clj.core
   "Common functions across all Bifurcan collections."
   (:refer-clojure :exclude [key
                             nth])

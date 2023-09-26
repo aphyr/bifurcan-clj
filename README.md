@@ -13,13 +13,13 @@ The library is split into several namespaces, one for each major datatype.
 Common functions are in `core`.
 
 ```clj
-(require '[com.aphyr.bifurcan-clj
-    [core :as b]
-    [list :as l]
-    [set :as s]
-    [map :as m]
-    [int-map :as im]
-    [graph :as g]])
+(require '[bifurcan-clj
+           [core :as b]
+           [list :as l]
+           [set :as s]
+           [map :as m]
+           [int-map :as im]
+           [graph :as g]])
 ```
 
 Working with lists.

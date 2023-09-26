@@ -1,4 +1,4 @@
-(ns com.aphyr.bifurcan-clj.map
+(ns bifurcan-clj.map
   "Functions for working with maps."
   (:refer-clojure :exclude [contains?
                             empty
@@ -11,7 +11,7 @@
                             remove
                             ])
   (:require [clojure [core :as c]]
-            [com.aphyr.bifurcan-clj.core :refer [functional ->FunctionalN]])
+            [bifurcan-clj.core :refer [functional ->FunctionalN]])
   (:import (java.util Iterator
                       OptionalLong)
            (io.lacuna.bifurcan IEntry

@@ -1,4 +1,4 @@
-(ns com.aphyr.bifurcan-clj.list
+(ns bifurcan-clj.list
   "Functions for working with lists."
   (:refer-clojure :exclude [concat
                             empty

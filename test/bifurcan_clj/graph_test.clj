@@ -1,8 +1,8 @@
-(ns com.aphyr.bifurcan-clj.graph-test
+(ns bifurcan-clj.graph-test
   (:require [clojure [datafy :refer [datafy]]
                      [pprint :refer [pprint]]
                      [test :refer [deftest is testing]]]
-            [com.aphyr.bifurcan-clj [core :as b]
+            [bifurcan-clj [core :as b]
                                     [graph :as g]
                                     [list :as l]
                                     [map :as m]
