@@ -16,7 +16,7 @@
                                ISet
                                Set)))
 
-(def empty
+(def ^Set empty
   "The empty set."
   Set/EMPTY)
 

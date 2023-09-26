@@ -14,7 +14,7 @@
                                List
                                Lists)))
 
-(def empty
+(def ^List empty
   "The empty list."
   List/EMPTY)
 
