@@ -88,7 +88,6 @@ nil
 ; Map support union, intersection, difference, and so on.
 (datafy (m/union m (m/from {:y 5 :z 10})))
 {:y 5, :x 1, :z 10}
-```
 
 ; Maps can also transform keys to integer indices
 (m/index-of m :x)
@@ -98,8 +97,24 @@ com.aphyr.bifurcan-clj.core=> (b/nth m 1)
 #object[io.lacuna.bifurcan.Maps$Entry 0x63cac402 ":x = 1"]
 ```
 
-Bifurcan sets and graphs work too. For instance, here's how to find
-articulation points of a graph:
+Bifurcan sets work similarly:
+
+```clj
+(def s (s/from [1 2 1 3]))
+#object[io.lacuna.bifurcan.Set 0x4436c461 "{1, 2, 3}"]
+
+(s/contains? s 3)
+true
+
+(s/index-of s 2)
+1
+
+(datafy (s/difference s (s/from #{3})))
+#{1 2}
+```
+
+Bifurcan includes a number of graph algorithms: shortest-path, connected and
+biconnected components, articulation points, and so on.
 
 ```clj
 ; If we were to remove b1, it would partition the graph in two
