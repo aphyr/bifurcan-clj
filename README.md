@@ -98,6 +98,25 @@ com.aphyr.bifurcan-clj.core=> (b/nth m 1)
 #object[io.lacuna.bifurcan.Maps$Entry 0x63cac402 ":x = 1"]
 ```
 
+Sorted maps also support queries like "which key is just above k?".
+
+```clj
+(def m (m/sorted-map-from {:a 1, :c 3}))
+#object[io.lacuna.bifurcan.SortedMap 0xae6e1f1 "{:a 1, :c 3}"]
+
+; The index of the entry at or just below key :b is 0
+(m/floor-index m :b)
+0
+
+; Or the entry above :b
+(m/ceil m :b)
+#object[io.lacuna.bifurcan.Maps$Entry 0x2445704e ":c = 3"]
+
+; These maps can be sliced to just entries between two keys
+(datafy (m/slice m :b :d))
+{:c 3}
+```
+
 Bifurcan sets work a lot like maps:
 
 ```clj

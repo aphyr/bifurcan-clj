@@ -80,16 +80,6 @@
   [^IntMap m]
   (.comparator m))
 
-(defn ^ToLongFunction key-hash
-  "The key hash function used by this map."
-  [^IntMap m]
-  (.keyHash m))
-
-(defn ^ToLongFunction key-equality
-  "The key equality function used by this map."
-  [^IntMap m]
-  (.keyEquality m))
-
 (defn ^IntMap slice
   "A map representing all entries within [min max] inclusive."
   [^IntMap m, ^long min, ^long max]
