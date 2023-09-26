@@ -18,18 +18,32 @@
   "The empty list."
   List/EMPTY)
 
+(declare add-last)
+
 (defn list
   "Constructs a new list. With arguments, constructs a list of those
   arguments."
   ([]
    List/EMPTY)
   ([& args]
-   (List/from args)))
+   (List/from ^Iterable args)))
 
 (defprotocol From
   (from ^io.lacuna.bifurcan.IList [x] "Coerces x to a list."))
 
 (extend-protocol From
+  ; We want to be able to convert Clojure maps and lazy sequences of [k v]
+  ; vector pairs to IntMaps readily. These are our paths for that coercion.
+  clojure.lang.IReduceInit
+  (from [xs]
+    (.forked ^List
+      (reduce add-last (.linear empty) xs)))
+
+  clojure.lang.Seqable
+  (from [xs]
+    (.forked ^List
+      (reduce add-last (.linear empty) xs)))
+
   Iterable
   (from [x] (List/from ^Iterable x))
   Iterator

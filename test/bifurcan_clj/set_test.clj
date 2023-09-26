@@ -30,8 +30,10 @@
     (is (= #{1 2} (datafy (bs/from (bl/list 1 2))))))
   (testing "iterator"
     (is (= #{1 2} (datafy (bs/from (.iterator [1 2]))))))
-  (testing "iterable"
-    (is (= #{1 2} (datafy (bs/from [1 2]))))))
+  (testing "vec"
+    (is (= #{1 2} (datafy (bs/from [1 2])))))
+  (testing "lazy seq"
+    (is (= #{1 2} (datafy (bs/from (map identity [1 2])))))))
 
 (deftest contains?-test
   (is (bs/contains? (bs/from #{1 2}) 2)))

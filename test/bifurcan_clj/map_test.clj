@@ -26,6 +26,8 @@
   (testing "clojure map"
     (is (= {:x 1, :y 2} (datafy (bm/from {:x 1, :y 2})))))
   (testing "seq of pairs"
+    (is (= {:x 1, :y 2} (datafy (bm/from (map identity [[:x 1] [:y 2]]))))))
+  (testing "vec of pairs"
     (is (= {:x 1, :y 2} (datafy (bm/from [[:x 1] [:y 2]])))))
   (testing "map"
     (is (= {:x 1, :y 2} (datafy (bm/from (bm/from {:x 1, :y 2})))))))

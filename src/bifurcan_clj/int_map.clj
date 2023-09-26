@@ -15,10 +15,10 @@
                             remove
                             ])
   (:require [clojure [core :as c]]
-            [bifurcan-clj [core :refer [functional
-                                                  ->FunctionalN]]
-                                    [map :as m]])
-  (:import (java.util Collection
+            [bifurcan-clj [core :refer [functional]]
+             [map :as m]])
+  (:import (bifurcan_clj.core FunctionalN)
+           (java.util Collection
                       Comparator
                       Iterator
                       OptionalLong)
@@ -133,12 +133,12 @@
     (when (.isPresent i)
       (.getAsLong i))))
 
-(defn inclusive-floor-index
-  "Not sure what this is."
-  [^IntMap m, ^long k]
-  (let [i (.inclusiveFloorIndex m k)]
-    (when (.isPresent i)
-      (.getAsLong i))))
+;(defn inclusive-floor-index
+;  "Not sure what this is."
+;  [^IntMap m, k]
+;  (let [i (.inclusiveFloorIndex m k)]
+;    (when (.isPresent i)
+;      (.getAsLong i))))
 
 (defn ceil-index
   "The index of the entry whose key is either equal to key, or just above it.
@@ -167,7 +167,7 @@
   ([^IntMap m, k, f a b]
    (.update m k (functional f a b)))
   ([^IntMap m, k, f a b & more]
-   (.update m k (->FunctionalN f a b more))))
+   (.update m k ^FunctionalN (FunctionalN. f a b more))))
 
 (defn ^IntMap remove
   "Removes a key from the map."

@@ -196,18 +196,18 @@
   "Finds the shortest path, if one exists, from starting vertex to any vertex
   where (accept? v) is truthy, using (cost edge) -> double to determine the
   cost of each edge. Nil if no path exists."
-  [g, start, accept?, cost]
+  [^IGraph g, start, accept?, cost]
   (let [path (Graphs/shortestPath
-               g start (functional accept?) (functional cost))]
+               g ^Object start (functional accept?) (functional cost))]
     (.orElse path nil)))
 
 (defn ^IList shortest-path-from-any
   "Finds the shortest path, if one exists, from any one of an iterable of
   starting vertices to any vertex where (accept? v) is truthy, using (cost
   edge) -> double to determine the cost of each edge. Nil if no path exists."
-  [g, starts, accept?, cost]
+  [^IGraph g, ^Iterable starts, accept?, cost]
   (let [path (Graphs/shortestPath
-               g ^Iterable starts (functional accept?) (functional cost))]
+               g starts (functional accept?) (functional cost))]
     (.orElse path nil)))
 
 (defn ^Set connected-components

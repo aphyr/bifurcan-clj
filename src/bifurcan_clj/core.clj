@@ -110,12 +110,13 @@
 
 ;; Java functional interface wrappers.
 (deftype Functional [f]
-  BiFunction
-  (apply [_ x y] (f x y))
+  Predicate
+  (test [_ x] (boolean (f x)))
 
   BiPredicate
   (test [_ x y] (f x y))
 
+  UnaryOperator
   BinaryOperator
 
   Consumer
@@ -123,9 +124,6 @@
 
   Supplier
   (get [_] (f))
-
-  Predicate
-  (test [_ x] (boolean (f x)))
 
   Function
   (apply [_ x] (f x))
@@ -136,7 +134,8 @@
   ToDoubleFunction
   (applyAsDouble [_ x] (f x))
 
-  UnaryOperator)
+  BiFunction
+  (apply [_ x y] (f x y)))
 
 ; Curried variants
 (deftype Functional1 [f a]
@@ -160,13 +159,13 @@
   BiFunction, Predicate, etc. Functions can do anything if they believe in
   themselves.
 
-  If additional args a b ... are provided, produces curried functions which
-  call (f x a b ...)."
-  ([f]
+  If additional args a b ... are provided, produces (sort of) curried functions
+  which call (f x a b ...)."
+  (^Functional [f]
    (Functional. f))
-  ([f a]
+  (^Functional1 [f a]
    (Functional1. f a))
-  ([f a b]
+  (^Functional2 [f a b]
    (Functional2. f a b))
-  ([f a b & more]
+  (^FunctionalN [f a b & more]
    (FunctionalN. f a b more)))

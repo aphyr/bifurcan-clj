@@ -28,10 +28,22 @@
   ([hash-fn equals-fn]
    (Set. (functional hash-fn) (functional equals-fn))))
 
+(declare add)
+
 (defprotocol From
   (from ^io.lacuna.bifurcan.ISet [x] "Coerces x to a set."))
 
 (extend-protocol From
+  clojure.lang.IReduceInit
+  (from [xs]
+    (.forked ^ISet
+      (reduce add (.linear empty) xs)))
+
+  clojure.lang.Seqable
+  (from [xs]
+    (.forked ^ISet
+      (reduce add (.linear empty) xs)))
+
   Iterable
   (from [it] (Set/from it))
 

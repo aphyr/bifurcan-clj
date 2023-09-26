@@ -50,6 +50,13 @@
     (is (= 1   (i/floor-index m 3)))
     (is (= 1   (i/floor-index m 4))))
 
+  ;(deftest inclusive-floor-index-test
+  ;  (is (= nil (i/inclusive-floor-index m 0)))
+  ;  (is (= 0   (i/inclusive-floor-index m 1)))
+  ;  (is (= 0   (i/inclusive-floor-index m 2)))
+  ;  (is (= 1   (i/inclusive-floor-index m 3)))
+  ;  (is (= 1   (i/inclusive-floor-index m 4))))
+
   (deftest ceil-index-test
     (is (= 0   (i/ceil-index m 0)))
     (is (= 0   (i/ceil-index m 1)))

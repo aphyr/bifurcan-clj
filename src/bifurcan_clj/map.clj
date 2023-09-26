@@ -48,14 +48,23 @@
 (extend-protocol From
   ; We want to be able to convert Clojure maps and lazy sequences of [k v]
   ; vector pairs to Bifurcan maps readily. This is our path for that coercion.
-  Iterable
+  clojure.lang.IReduceInit
   (from [pairs]
-    (let [iter (.iterator pairs)]
-      (loop [m (.linear Map/EMPTY)]
-        (if (.hasNext iter)
-          (let [e (->entry (.next iter))]
-            (recur (.put m (.key e) (.value e))))
-          (.forked m)))))
+    (.forked ^IMap
+      (reduce (fn [^Map m, pair]
+                (let [e (->entry pair)]
+                  (.put m (.key e) (.value e))))
+              empty
+              pairs)))
+
+  clojure.lang.Seqable
+  (from [pairs]
+    (.forked ^IMap
+      (reduce (fn [^Map m, pair]
+                (let [e (->entry pair)]
+                  (.put m (.key e) (.value e))))
+              empty
+              pairs)))
 
   ; The direct list form expects IEntrys
   IList
