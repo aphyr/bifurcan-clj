@@ -24,7 +24,7 @@ Common functions are in `core`.
            [graph :as g]])
 ```
 
-Working with lists.
+Bifurcan lists support efficient adding to the front or end of the list, in-place updates ala vector, concatenation and slicing.
 
 ```clj
 ; You can construct a list by hand
@@ -56,7 +56,8 @@ Working with lists.
 [10 11 12 13 14 15 16 17 18 19]
 ```
 
-Working with maps.
+Maps support efficient put and get, in-place updates, merge, union, difference,
+intersection, and so on.
 
 ```clj
 ; Maps are constructed with `from`:
@@ -85,7 +86,7 @@ nil
 (datafy (m/update m :y + 3))
 {:y 5, :x 1}
 
-; Map support union, intersection, difference, and so on.
+; Maps support union, intersection, difference, and so on.
 (datafy (m/union m (m/from {:y 5 :z 10})))
 {:y 5, :x 1, :z 10}
 
@@ -97,7 +98,7 @@ com.aphyr.bifurcan-clj.core=> (b/nth m 1)
 #object[io.lacuna.bifurcan.Maps$Entry 0x63cac402 ":x = 1"]
 ```
 
-Bifurcan sets work similarly:
+Bifurcan sets work a lot like maps:
 
 ```clj
 (def s (s/from [1 2 1 3]))
