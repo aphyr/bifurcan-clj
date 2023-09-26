@@ -130,13 +130,6 @@ biconnected components, articulation points, and so on.
 
 See [the tests](test/com/aphyr/bifurcan_clj/) for detailed examples.
 
-## Features
-
-This library extends Bifurcan structures to support Clojure's
-[datafy](https://clojuredocs.org/clojure.datafy/datafy) protocol. This makes it
-possible to work with a Bifurcan structure for speed, then coerce it
-back to an idiomatic Clojure structure when desired.
-
 ## Philosophy
 
 If you're using Bifurcan you probably care about performance, so these wrappers
@@ -154,16 +147,20 @@ generally takes a Bifurcan `IList`, rather than also supporting a Clojure seq.
 We do this to keep functions small, predictable, and to avoid branching in
 potentially hot codepaths.
 
+Coercing Clojure to Bifurcan is done via (e.g. `bifurcan.set/from`). This
+conversion is shallow. Coercing Bifurcan back to Clojure is generally done via
+Clojure's [datafy](https://clojuredocs.org/clojure.datafy/datafy) protocol.
+
 There are a few exceptions to this rule. Many functions in Bifurcan use a Java
 functional interface like `BiPredicate`. In this library you provide a Clojure
 function (or map, or set, etc), and we lift it (using
 `bifurcan-clj.core/functional`) into a wrapper that satisfies `BiPredicate`,
-`Consumer`, etc.
+`Consumer`, etc. We provide currying for a few cases too: you can
+`(bifurcan.map/update m :k + 3)` to add three to k.
 
-We also return `nil` instead of Optionals pretty much everywhere. This is
-generally unambiguous, and where it might be, there are explicit not-found
-paths. Clojure is great with nil, whereas working with OptionalLong can be a
-bit cumbersome.
+We return `nil` instead of Optionals pretty much everywhere. This is generally
+unambiguous, and where it might be, there are explicit not-found paths. Clojure
+is great with nil, whereas working with Optional can be a bit cumbersome.
 
 Clojure lacks Java's argument type dispatch. Where argument types would be
 ambiguous and you might want to control which is used, we generally provide
