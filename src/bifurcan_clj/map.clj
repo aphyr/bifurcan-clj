@@ -27,6 +27,7 @@
                                IMap
                                ISet
                                ISortedMap
+                               ISortedSet
                                Map
                                Maps
                                SortedMap)))
@@ -305,23 +306,28 @@
   than the minimum value in the map, returns nil."
   ([^ISortedMap m k]
    (.floor m k))
-  ([^ISortedMap m k bound]
-   (.floor m k bound)))
+  ; I don't think the bounds are accessible to us--maybe they need to be
+  ; declared public?
+  ;([^ISortedMap m k bound]
+  ; (.floor m k bound))
+  )
 
 (defn ^IEntry ceil
   "The entry whose key is either equal to k, or just above it. If k is less
   than the minimum value in the map, returns nil."
   ([^ISortedMap m k]
    (.ceil m k))
-  ([^ISortedMap m k bound]
-   (.ceil m k bound)))
+  ;([^ISortedMap m k bound]
+  ; (.ceil m k bound)))
+  )
 
 (defn ^IDiffSortedMap slice
   "Returns a sorted map with all entries with keys in [min max] inclusive."
   ([^ISortedMap m min max]
    (.slice m min max))
-  ([^ISortedMap m min min-bound max max-bound]
-   (.slice m min min-bound max max-bound)))
+  ;([^ISortedMap m min min-bound max max-bound]
+  ; (.slice m min min-bound max max-bound)))
+  )
 
 (defn ^IEntry first
   "The first entry of a sorted map"
