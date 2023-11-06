@@ -113,17 +113,17 @@
   (let [g (g/merge (-> (g/digraph) (g/link :x :y 1))
                    (-> (g/digraph)
                        (g/link :x :y 2)
+                       (g/link :x :q 2)
                        (g/link :y :z 2))
                    (fn merge [a b]
                      ;(prn :merge a b)
                      (+ a b)))]
-    (is (= {:x #{:y}
+    (is (= {:x #{:y :q}
             :y #{:z}
-            :z #{}}
+            :z #{}
+            :q #{}}
            (datafy g)))
-    ; I suspect this is a bug in bifurcan. Merge is called but result ignored?
-    ;(is (= 3 (g/edge g :x :y)))
-    (is (= 2 (g/edge g :x :y))) ; BUG?
+    (is (= 3 (g/edge g :x :y)))
     (is (= 2 (g/edge g :y :z)))))
 
 (deftest shortest-path-test

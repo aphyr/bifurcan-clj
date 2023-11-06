@@ -55,9 +55,9 @@
   ([^ICollection coll ^long n not-found]
    (.nth coll n not-found)))
 
-(defn ^long size
+(defn size
   "How large is a collection?"
-  [^ICollection coll]
+  ^long [^ICollection coll]
   (.size coll))
 
 (defn ^IList split
