@@ -6,5 +6,6 @@
   :dependencies [[io.lacuna/bifurcan "0.2.0-alpha4"]]
   :repl-options {:init-ns bifurcan-clj.core}
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.11.1"]]}}
-  :test-selectors {:default (fn [m]
+  :test-selectors {:buggy :buggy
+                   :default (fn [m]
                               (not (or (:buggy m))))})
