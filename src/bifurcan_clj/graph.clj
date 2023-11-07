@@ -193,9 +193,9 @@
   ; This is broken but should be fixed shortly
   ; (Graphs/merge a b (functional merge-fn))
   (let [m (functional merge-fn)]
-    (.forked
+    (.forked ^IGraph
       (reduce (fn [g v]
-                (reduce (fn [g v']
+                (reduce (fn [^IGraph g v']
                           (.link g v v' (.edge b v v') m))
                         g
                         (.out b v)))
