@@ -132,8 +132,10 @@
 
 (defn ^ISet out
   "The set of all vertices this vertex directly leads to."
-  [^IGraph g, v]
-  (.out g v))
+  ([^IGraph g, v]
+   (.out g v))
+  ([^IGraph g, v, not-found]
+   (.out g v not-found)))
 
 (defn map-edges
   "Transforms every edge's value by applying (f edge) -> value'"
@@ -190,17 +192,7 @@
   "Merges two graphs together using a function (merge-fn edge-value1
   edge-value2)."
   [^IGraph a, ^IGraph b, merge-fn]
-  ; This is broken but should be fixed shortly
-  ; (Graphs/merge a b (functional merge-fn))
-  (let [m (functional merge-fn)]
-    (.forked ^IGraph
-      (reduce (fn [g v]
-                (reduce (fn [^IGraph g v']
-                          (.link g v v' (.edge b v v') m))
-                        g
-                        (.out b v)))
-              (.linear a)
-              (.vertices b)))))
+  (.merge a b (functional merge-fn)))
 
 (defn ^IList shortest-path
   "Finds the shortest path, if one exists, from starting vertex to any vertex
