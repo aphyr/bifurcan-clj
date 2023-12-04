@@ -192,7 +192,9 @@ iterators, and lists.
 We generally use Bifurcan's function names rather than their Clojure
 equivalents. We use `forked` and `linear` rather than `persistent!` and
 `transient`. Counting a collection is done with `(b/size coll)`, since the
-underlying method is `(.size coll)`.
+underlying method is `(.size coll)`. We avoid the use of the usual Clojure `!`
+on methods that mutate, since many of these functions work in both mutable and
+immutable ways.
 
 ## Status
 
