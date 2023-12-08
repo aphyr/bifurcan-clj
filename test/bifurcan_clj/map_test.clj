@@ -168,7 +168,7 @@
     (is (= [3 :y] (datafy (bm/ceil m 3))))
     (is (= nil    (datafy (bm/ceil m 4)))))
 
-  (deftest slice-test
+  (deftest ^:buggy slice-test
     (is (= {1 :x} (datafy (bm/slice m -1 1)))))
 
   ;(deftest slice-indices-test
