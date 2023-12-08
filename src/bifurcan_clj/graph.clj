@@ -134,8 +134,10 @@
   "The set of all vertices this vertex directly leads to."
   ([^IGraph g, v]
    (.out g v))
-  ([^IGraph g, v, not-found]
-   (.out g v not-found)))
+  ; Nice to have, later
+; ([^IGraph g, v, not-found]
+;  (.out g v not-found)))
+)
 
 (defn map-edges
   "Transforms every edge's value by applying (f edge) -> value'"
