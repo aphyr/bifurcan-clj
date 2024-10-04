@@ -34,6 +34,9 @@
 (extend-protocol From
   ; We want to be able to convert Clojure maps and lazy sequences of [k v]
   ; vector pairs to IntMaps readily. These are our paths for that coercion.
+  nil
+  (from [_] empty)
+
   clojure.lang.IReduceInit
   (from [xs]
     (.forked ^List

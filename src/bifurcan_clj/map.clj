@@ -76,6 +76,10 @@
 (extend-protocol From
   ; We want to be able to convert Clojure maps and lazy sequences of [k v]
   ; vector pairs to Bifurcan maps readily. This is our path for that coercion.
+  nil
+  (from [_] empty)
+  (sorted-map-from [_] (SortedMap.))
+
   clojure.lang.IReduceInit
   (from [pairs]
     (from-reduce empty pairs))

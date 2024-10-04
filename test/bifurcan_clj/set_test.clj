@@ -26,6 +26,8 @@
                datafy)))))
 
 (deftest from-test
+  (testing "nil"
+    (is (= (bs/set) (bs/from nil))))
   (testing "list"
     (is (= #{1 2} (datafy (bs/from (bl/list 1 2))))))
   (testing "iterator"

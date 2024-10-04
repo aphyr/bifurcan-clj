@@ -34,6 +34,9 @@
   (from ^io.lacuna.bifurcan.ISet [x] "Coerces x to a set."))
 
 (extend-protocol From
+  nil
+  (from [_] empty)
+
   clojure.lang.IReduceInit
   (from [xs]
     (.forked ^ISet

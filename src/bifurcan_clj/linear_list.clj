@@ -28,6 +28,9 @@
   (from ^io.lacuna.bifurcan.LinearList [x] "Coerces x to a linear list."))
 
 (extend-protocol From
+  nil
+  (from [_] (linear-list))
+
   clojure.lang.IReduceInit
   (from [xs]
     (reduce bl/add-last (linear-list) xs))

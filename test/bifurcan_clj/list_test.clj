@@ -14,6 +14,7 @@
   (is (= [1 2 3] (datafy (bl/list 1 2 3)))))
 
 (deftest from-test
+  (is (= bl/empty (bl/from nil)))
   (is (= [1 2 3] (datafy (bl/from [1 2 3]))))
   (is (= [2 3 4] (datafy (bl/from (map inc [1 2 3])))))
   (is (= [1 2 3] (datafy (bl/from (.iterator [1 2 3]))))))

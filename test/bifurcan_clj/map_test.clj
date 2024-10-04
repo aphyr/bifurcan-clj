@@ -23,6 +23,8 @@
                datafy)))))
 
 (deftest from-test
+  (testing "nil"
+    (is (= bm/empty (bm/from nil))))
   (testing "clojure map"
     (is (= {:x 1, :y 2} (datafy (bm/from {:x 1, :y 2})))))
   (testing "seq of pairs"

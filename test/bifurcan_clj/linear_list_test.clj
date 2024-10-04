@@ -15,6 +15,7 @@
   (is (= [] (datafy (bll/linear-list 3)))))
 
 (deftest from-test
+  (is (= (bll/linear-list) (bll/from nil)))
   (is (= [1 2 3] (datafy (bll/from [1 2 3]))))
   (is (= [2 3 4] (datafy (bll/from (map inc [1 2 3])))))
   (is (= [1 2 3] (datafy (bll/from (.iterator [1 2 3]))))))

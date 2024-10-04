@@ -12,6 +12,8 @@
     (is (= 0 (b/size (i/int-map))))))
 
 (deftest from-test
+  (testing "nil"
+    (is (= (i/int-map) (i/from nil))))
   (testing "clojure map"
     (is (= {1 :x, 2 :y} (datafy (i/from {1 :x, 2 :y})))))
   (testing "vector of pairs"
