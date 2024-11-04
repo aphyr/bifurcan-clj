@@ -17,7 +17,9 @@
   (is (= bl/empty (bl/from nil)))
   (is (= [1 2 3] (datafy (bl/from [1 2 3]))))
   (is (= [2 3 4] (datafy (bl/from (map inc [1 2 3])))))
-  (is (= [1 2 3] (datafy (bl/from (.iterator [1 2 3]))))))
+  (is (= [1 2 3] (datafy (bl/from (.iterator [1 2 3])))))
+  (let [ary (into-array [1 2 3])]
+    (is (= [1 2 3] (datafy (bl/from-array ary))))))
 
 (deftest add-first-last-test
   (is (= [1 2 3 4]

@@ -54,6 +54,12 @@
   IList
   (from [x] (List/from ^IList x)))
 
+(defn ^IList from-array
+  "Like `(from xs)`, constructs a list from an array. Extending protocols over
+  array subtypes is... maybe impossible."
+  [^objects xs]
+  (Lists/from xs))
+
 (defn ^IList add-first
   "Adds an entry at the front of the list."
   [^IList xs, x]
