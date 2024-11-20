@@ -144,3 +144,16 @@
 
 (deftest remove-test
   (is (= {1 1} (-> {1 1 2 2} i/from (i/remove 2) datafy))))
+
+(deftest slice-test
+  (let [m (i/from {1 :a, 2 :b, 3 :c, 4 :d})]
+    (testing "empty"
+      (is (= {} (datafy (i/slice m 0 0)))))
+    (testing "single"
+      (is (= {1 :a} (datafy (i/slice m 1 1))))
+      (is (= {4 :d} (datafy (i/slice m 4 4)))))
+    (testing "middle"
+      (is (= {2 :b, 3 :c} (datafy (i/slice m 2 3)))))
+    (testing "over the edge"
+      (is (= {1 :a, 2 :b} (datafy (i/slice m 0 2))))
+      (is (= {3 :c, 4 :d} (datafy (i/slice m 3 8)))))))
