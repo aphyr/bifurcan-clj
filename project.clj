@@ -1,4 +1,4 @@
-(defproject com.aphyr/bifurcan-clj "0.1.3"
+(defproject com.aphyr/bifurcan-clj "0.1.4-SNAPSHOT"
   :description "Clojure wrappers for the Bifurcan library of high-performance data structures"
   :url "https://github.com/aphyr/bifurcan-clj"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
