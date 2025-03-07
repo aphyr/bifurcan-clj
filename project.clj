@@ -5,7 +5,7 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[io.lacuna/bifurcan "0.2.0-alpha7"]]
   :repl-options {:init-ns bifurcan-clj.core}
-  :profiles {:dev {:dependencies [[org.clojure/clojure "1.11.1"]]}}
+  :profiles {:dev {:dependencies [[org.clojure/clojure "1.12.0"]]}}
   :test-selectors {:buggy :buggy
                    :default (fn [m]
                               (not (or (:buggy m))))})
