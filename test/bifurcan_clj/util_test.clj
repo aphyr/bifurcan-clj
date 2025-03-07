@@ -9,5 +9,8 @@
                           [util :refer :all]]))
 
 (deftest iterator=-test
+  (is (not (iterator= (.iterator [1 2 3]) (.iterator [1 2 4]))))
   (is (not (iterator= (.iterator [1 2 3]) (.iterator [1 2]))))
-  (is      (iterator= (.iterator [1 2 3]) (.iterator [1 2 3]))))
+  (is (not (iterator= (.iterator [1 2]) (.iterator [1 2 3]))))
+  (is      (iterator= (.iterator [1 2 3]) (.iterator [1 2 3])))
+  (is      (iterator= (.iterator []) (.iterator []))))
