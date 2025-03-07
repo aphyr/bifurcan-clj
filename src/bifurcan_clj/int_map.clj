@@ -39,33 +39,33 @@
         be coerced to an Entry--Clojure map entries, [k v] vector pairs, or
         Bifurcan entries."))
 
+(defn ^IntMap reducible->int-map
+  "Takes any reducible series of pairs (e.g. [k v] vectors, clojure map
+  entries, Bifurcan map entries) and converts it to an IntMap."
+  [pairs]
+  (.forked ^IntMap
+           (reduce (fn [^IntMap m, pair]
+                     (let [e (m/->entry pair)]
+                       (.put m (.key e) (.value e))))
+                   (IntMap.)
+                   pairs)))
+
+; This lets us re-use the same fn across multiple classes
+(extend clojure.lang.IReduceInit From {:from reducible->int-map})
+(extend clojure.lang.Seqable     From {:from reducible->int-map})
+
 (extend-protocol From
   ; We want to be able to convert Clojure maps and lazy sequences of [k v]
   ; vector pairs to IntMaps readily. These are our paths for that coercion.
   nil
   (from [_] (IntMap.))
 
-  clojure.lang.IReduceInit
-  (from [pairs]
-    (.forked ^IntMap
-      (reduce (fn [^IntMap m, pair]
-                (let [e (m/->entry pair)]
-                  (.put m (.key e) (.value e))))
-              (IntMap.)
-              pairs)))
-
-  clojure.lang.Seqable
-  (from [pairs]
-    (.forked ^IntMap
-      (reduce (fn [^IntMap m, pair]
-                (let [e (m/->entry pair)]
-                  (.put m (.key e) (.value e))))
-              (IntMap.)
-              pairs)))
-
   ; From a collection of IEntries
   Collection
-  (from [entries] (IntMap/from entries))
+  (from [entries]
+        (if (instance? java.util.Map$Entry (first entries))
+          (IntMap/from entries)
+          (reducible->int-map entries)))
 
   IMap
   (from [m] (IntMap/from m))
