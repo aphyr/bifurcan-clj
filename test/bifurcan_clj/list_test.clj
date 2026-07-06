@@ -64,3 +64,9 @@
 
 (deftest reverse-test
   (is (= [3 2 1] (datafy (bl/reverse (bl/list 1 2 3))))))
+
+(deftest remove-first-test
+  (is (= [2 3] (datafy (bl/remove-first (bl/list 1 2 3))))))
+
+(deftest remove-last-test
+  (is (= [1 2] (datafy (bl/remove-last (bl/list 1 2 3))))))

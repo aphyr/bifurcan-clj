@@ -70,6 +70,18 @@
   [^IList xs, x]
   (.addLast xs x))
 
+(defn ^IList remove-first
+  "Removes the entry at the start of the list, or returns the same list if
+  empty."
+  [^IList xs]
+  (.removeFirst xs))
+
+(defn ^IList remove-last
+  "Removes the entry at the end of the list, or returns the same list if
+  empty."
+  [^IList xs]
+  (.removeLast xs))
+
 (defn set
   "Returns a new list, with the element at idx overwritten with value. If idx
   is equal to ICollection.size(), the value is appended."
