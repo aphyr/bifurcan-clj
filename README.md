@@ -1,13 +1,14 @@
 # Bifurcan for Clojure
 
-[![Clojars Project](https://img.shields.io/clojars/v/com.aphyr/bifurcan-clj.svg)](https://clojars.org/com.aphyr/bifurcan-clj)
-
 [Bifurcan](https://github.com/lacuna/bifurcan) is an excellent library of
 high-performance mutable/persistent data structures by Zach Tellman. However,
 using Bifurcan structures from Clojure involves a bit of type hinting, reifying
 Java function interfaces, and so on--not much, but just enough to be
 cumbersome. This library provides idiomatic Clojure wrappers for Bifurcan with
 an emphasis on performance.
+
+[![Clojars Project](https://img.shields.io/clojars/v/com.aphyr/bifurcan-clj.svg)](https://clojars.org/com.aphyr/bifurcan-clj)
+[![cljdoc](https://cljdoc.org/badge/com.aphyr/bifurcan-clj)](https://cljdoc.org/d/com.aphyr/bifurcan-clj)
 
 ## Usage
 
@@ -24,7 +25,8 @@ Common functions are in `core`.
            [graph :as g]])
 ```
 
-Bifurcan lists support efficient adding to the front or end of the list, in-place updates ala vector, concatenation and slicing.
+Bifurcan lists support efficient adding to the front or end of the list,
+in-place updates ala vector, concatenation and slicing.
 
 ```clj
 ; You can construct a list by hand
