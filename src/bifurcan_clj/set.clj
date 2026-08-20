@@ -22,7 +22,7 @@
 
 (defn ^Set set
   "Constructs a new Set. Optionally takes a function for hashing and a
-  functionf or equality."
+  function for equality."
   ([]
    (Set.))
   ([hash-fn equals-fn]
