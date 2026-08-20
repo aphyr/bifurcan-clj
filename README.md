@@ -210,7 +210,7 @@ functions you're missing, please feel free to open a PR.
 
 ## License
 
-Copyright © 2023 Kyle Kingsbury
+Copyright © Kyle Kingsbury
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at

@@ -21,7 +21,6 @@
                       OptionalLong)
            (java.util.function ToLongFunction)
            (io.lacuna.bifurcan ICollection
-                               IDiffSortedMap
                                IEntry
                                IList
                                IMap
@@ -325,8 +324,9 @@
   ; (.ceil m k bound)))
   )
 
-(defn ^IDiffSortedMap slice
-  "Returns a sorted map with all entries with keys in [min max] inclusive."
+(defn ^ISortedMap slice
+  "Returns a sorted map with all the entries for keys between min (inclusive)
+  and max (exclusive)."
   ([^ISortedMap m min max]
    (.slice m min max))
   ;([^ISortedMap m min min-bound max max-bound]
