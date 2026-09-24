@@ -106,8 +106,7 @@
     (testing "top"
       (is (= #{:a1 :a2 :a3} (datafy (g/top g)))))
     (testing "bottom"
-      ; Is the presence of b here a bug, or expected behavior?
-      (is (= #{:b :c1 :c2 :c3} (datafy (g/bottom g)))))))
+      (is (= #{:c1 :c2 :c3} (datafy (g/bottom g)))))))
 
 (deftest merge-test
   (let [g (g/merge (-> (g/digraph) (g/link :x :y 1))
